@@ -3,3 +3,4 @@
 export(bayes_ale)
 export(bayes_pd)
 importFrom(stats,quantile)
+importFrom(yaImpute,ann)
