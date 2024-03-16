@@ -8,6 +8,14 @@
 \description{
 Compute statistics to aid the interpretability of black-box Bayesian machine learning models.
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/jacobenglert/pdpd}
+  \item Report bugs at \url{https://github.com/jacobenglert/pdpd/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Jacob Englert \email{jacob.englert@emory.edu}
 

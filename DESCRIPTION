@@ -12,3 +12,5 @@ LazyData: true
 RoxygenNote: 7.2.3
 Imports: 
     stats
+URL: https://github.com/jacobenglert/pdpd
+BugReports: https://github.com/jacobenglert/pdpd/issues

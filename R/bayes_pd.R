@@ -13,7 +13,8 @@
 #' @param num_burn Number of posterior samples to skip when making predictions.
 #' @param num_thin Thinning interval for posterior samples following \code{num_burn} samples.
 #'
-#' @return A data frame of posterior mean estimates and 95% credible intervals.
+#' @return A data frame of posterior mean estimates and credible intervals for
+#' a predictor grid.
 #' @export
 
 bayes_pd <- function (x, f_hat, vars,
@@ -21,6 +22,19 @@ bayes_pd <- function (x, f_hat, vars,
                       limits = c(0.025, 0.975),
                       num_burn = 0, num_thin = 1,
                       f = NULL) {
+
+  # Check limits
+  if ((length(limits) != 2) | !is.numeric(limits)) {
+    stop("limits must be a numeric vector of length 2.")
+  }
+
+  if (!all(limits < 1) | !all(limits > 0) | (limits[1] >= limits[2])) {
+    stop("limits must lie in the interval (0,1), and the second element must be larger than the first.")
+  }
+
+  if (num_burn %% 1 != 0 | num_burn < 0) stop("num_burn must be a non-negative integer.")
+  if (num_thin %% 1 != 0 | num_thin < 1) stop("num_burn must be a positive integer.")
+
 
   # Identify samples to retain in prediction
   if (num_burn == 0 & num_thin == 1) {
