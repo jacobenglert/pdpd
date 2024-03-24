@@ -340,8 +340,10 @@ bayes_ale_1D <- function (x, f_hat, var, k = 40, center = TRUE) {
 
   # Center ALE
   b1 <- as.numeric(table(a1))
-  if (is.logical(center) & center) {
-    fJ <- sweep(fJ, 2, apply(fJ, 2, \(x) sum((x[1:k] + x[2:(k + 1)]) / 2 * b1) / sum(b1)), '-')
+  if (is.logical(center)) {
+    if (center) {
+      fJ <- sweep(fJ, 2, apply(fJ, 2, \(x) sum((x[1:k] + x[2:(k + 1)]) / 2 * b1) / sum(b1)), '-')
+    }
   } else if (center == 'median') {
     m <- max(which(stats::median(x[[var]]) > z))
     fJ <- sweep(fJ, 2, apply(fJ, 2, \(x) (x[m] + x[m+1]) / 2), '-')
@@ -378,8 +380,10 @@ ale_1D <- function (x, f, var, k = 40, center = TRUE) {
 
   # Center ALE
   b1 <- as.numeric(table(a1))
-  if (is.logical(center) & center) {
-    fJ <- fJ - sum((fJ[1:k] + fJ[2:(k + 1)]) / 2 * b1) / sum(b1)
+  if (is.logical(center)) {
+    if (center) {
+      fJ <- fJ - sum((fJ[1:k] + fJ[2:(k + 1)]) / 2 * b1) / sum(b1)
+    }
   } else if (center == 'median') {
     m <- max(which(stats::median(x[[var]]) > z))
     fJ <- fJ - ((fJ[m] + fJ[m+1]) / 2)
