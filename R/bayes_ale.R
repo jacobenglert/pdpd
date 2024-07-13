@@ -94,7 +94,8 @@ bayes_ale <- function (x, f_hat, vars, k = 40, limits = c(0.025, 0.975),
                       est = fJ.mean,
                       lcl = fJ.lower,
                       ucl = fJ.upper,
-                      truth = fJ.true)
+                      truth = fJ.true,
+                      n = fJ$n)
 
     return(out)
 
@@ -279,9 +280,9 @@ bayes_ale <- function (x, f_hat, vars, k = 40, limits = c(0.025, 0.975),
     h1 <- c(diff(z2)[1], diff(z2)) / 2
     h2 <- c(rev(abs(diff(rev(z2)))), rev(abs(diff(z2)))[1]) / 2
 
-    out <- data.frame(matrix(nrow = length(z1) * length(z2), ncol = 14))
+    out <- data.frame(matrix(nrow = length(z1) * length(z2), ncol = 15))
     colnames(out) <- c('k1','k2','var1','var2','x1','x2',
-                       'est','lcl','ucl','truth',
+                       'est','lcl','ucl','truth','n',
                        'w1','w2','h1','h2')
     index <- 1
     for (i in 1:length(z1)) {
@@ -298,6 +299,13 @@ bayes_ale <- function (x, f_hat, vars, k = 40, limits = c(0.025, 0.975),
         out$w2[index] <- w2[i]
         out$h1[index] <- h1[j]
         out$h2[index] <- h2[j]
+
+        # Record sample size used
+        # We always start accumulating from 0 in both directions, so the first
+        # point doesn't use data. But we will just input the sample size for the
+        # second point.
+        out$n[index] <- b[max(i-1, 1), max(j-1, 1)]
+
         index <- index + 1
       }
     }
@@ -351,7 +359,7 @@ bayes_ale_1D <- function (x, f_hat, var, k = 40, center = TRUE) {
     stop("center must be a logical value or 'median'.")
   }
 
-  return (list(ale = fJ, x = z))
+  return (list(ale = fJ, x = z, n = c(b1[1], b1)))
 }
 
 ale_1D <- function (x, f, var, k = 40, center = TRUE) {

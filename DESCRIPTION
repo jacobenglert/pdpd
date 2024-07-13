@@ -1,7 +1,7 @@
 Package: pdpd
 Type: Package
 Title: Partial Dependence for Posterior Distributions
-Version: 0.1.0
+Version: 0.1.1
 Authors@R: 
     person("Jacob", "Englert", , "jacob.englert@emory.edu", role = c("aut", "cre"))
 Description: Compute statistics to aid the interpretability of black-box 
