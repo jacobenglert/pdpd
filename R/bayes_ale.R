@@ -129,10 +129,24 @@ bayes_ale <- function (x, f_hat, vars, k = 40, limits = c(0.025, 0.975),
     y.hat21.pd <- f_hat(x21)
     y.hat22.pd <- f_hat(x22)
 
+    if (!is.null(f)) {
+
+      # Make predictions
+      y11 <- f(x11)
+      y12 <- f(x12)
+      y21 <- f(x21)
+      y22 <- f(x22)
+
+    }
+
+    rm(x11, x12, x21, x22)
+
     # Compute local effects
     delta.pd <- (y.hat22.pd - y.hat12.pd) - (y.hat21.pd - y.hat11.pd)
+    rm(y.hat11.pd, y.hat12.pd, y.hat21.pd, y.hat22.pd)
     delta.pd.list <- as.list(asplit(delta.pd, 2))
     avg.delta.pd.list <- lapply(delta.pd.list, \(x) as.matrix(tapply(x, list(a1, a2), mean)))
+    rm(delta.pd.list)
 
     # For non-existent regions, use nearest neighbor
     na.delta <- is.na(avg.delta.pd.list[[1]])
@@ -210,12 +224,6 @@ bayes_ale <- function (x, f_hat, vars, k = 40, limits = c(0.025, 0.975),
 
     # Predict truth if f is provided
     if (!is.null(f)) {
-
-      # Make predictions
-      y11 <- f(x11)
-      y12 <- f(x12)
-      y21 <- f(x21)
-      y22 <- f(x22)
 
       # Compute local effects
       delta <- (y22 - y12) - (y21 - y11)
@@ -336,6 +344,7 @@ bayes_ale_1D <- function (x, f_hat, var, k = 40, center = TRUE) {
   # Make predictions
   y.hat1.pd <- f_hat(x1)
   y.hat2.pd <- f_hat(x2)
+  rm(x1, x2)
 
   # Compute individual local effects
   delta.pd <- y.hat2.pd - y.hat1.pd
@@ -378,6 +387,7 @@ ale_1D <- function (x, f, var, k = 40, center = TRUE) {
   # Make predictions
   y1 <- f(x1)
   y2 <- f(x2)
+  rm(x1, x2)
 
   # Compute individual local effects
   delta <- y2 - y1
