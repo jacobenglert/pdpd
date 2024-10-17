@@ -348,6 +348,7 @@ bayes_ale_1D <- function (x, f_hat, var, k = 40, center = TRUE) {
 
   # Compute individual local effects
   delta.pd <- y.hat2.pd - y.hat1.pd
+  rm(yhat1.pd, yhat2.pd)
 
   # Compute average local effects
   avg.delta.pd <- apply(delta.pd, 2, \(x) tapply(x, a1, mean))
@@ -391,6 +392,7 @@ ale_1D <- function (x, f, var, k = 40, center = TRUE) {
 
   # Compute individual local effects
   delta <- y2 - y1
+  rm(y1, y2)
   avg.delta <- tapply(delta, a1, mean)
 
   # Accumulate local effects
